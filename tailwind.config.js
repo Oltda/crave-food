@@ -7,7 +7,7 @@ module.exports = {
 
     extend: {
       backgroundImage: {
-        'header-picture': "url('/static/images/foodies.jpg/')",
+        'header-picture': "url('/static/images/Foodies.jpg/')",
       },
       minWidth: {
         '400': '400px',
