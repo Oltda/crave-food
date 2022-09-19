@@ -12,7 +12,7 @@ export default NextAuth({
     }),
     
   ],
-
+  secret: 'IamVeryHandsome' ,
 
   pages:{
     signIn: "/auth/signin",
