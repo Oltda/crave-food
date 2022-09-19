@@ -4,7 +4,7 @@ import Posts from './Posts';
 import {modalState} from "../atoms/modalAtom";
 import {useRecoilState} from "recoil";
 import {alertState} from "../atoms/alertAtom";
-import Alert from "./alert";
+import Alert from "./Alert";
 
 
 

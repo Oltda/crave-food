@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/outline";
 import {useRecoilState} from "recoil";
 import {alertState} from "../../atoms/alertAtom";
-import Alert from "../../components/alert";
+import Alert from "../../components/Alert";
 
 
 
