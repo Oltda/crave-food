@@ -1,4 +1,4 @@
-import Header from "./header";
+import Header from "./Header";
 import { addDoc, serverTimestamp, collection, onSnapshot, query, orderBy, where, setDoc, doc, deleteDoc} from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import {useEffect, useState} from "react";
