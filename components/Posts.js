@@ -37,9 +37,10 @@ function Posts(){
     return(
         <div>
             {!ready? (
-                <div className=' '>
+              
                 <ClipLoader cssOverride={override} />
-                </div>
+             
+          
             ):(
 
                 <div>

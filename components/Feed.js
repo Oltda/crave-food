@@ -18,8 +18,8 @@ function Feed(){
 
     return(
         <div className="grid grid-cols-5 h-96">
-            <div className="bg-gray-100 col-span-1">
-                    {/* <img src="image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD…icRtjCXrzkjsHovE26DTDCEWJsYbQqUnB2++H3gLyyzpZP//Z" /> */}
+            <div className="bg-gray-100 hidden lg:block lg:col-span-1">
+                    
             </div>
             
         
@@ -28,7 +28,7 @@ function Feed(){
 
             {open?(
             
-                // <PostFormTest />
+         
                 <PostForm />
 
             ):(
@@ -45,7 +45,7 @@ function Feed(){
 
                     
             </div>
-            <div className="bg-gray-100 col-span-1">
+            <div className="bg-gray-100 hidden lg:block lg:col-span-1">
                             
             </div>   
 

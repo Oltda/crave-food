@@ -11,6 +11,7 @@ import {
 import {useRecoilState} from "recoil";
 import {alertState} from "../../atoms/alertAtom";
 import Alert from "../../components/Alert";
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 
@@ -227,7 +228,12 @@ const userProfile = () =>{
    
 
     return(
-        <div className='grid grid-cols-6  pt-28 absolute bg-gray-100 border border-black h-full w-full' >
+        <div>
+
+        {posts.length ? (
+
+        
+        <div className='grid grid-cols-6  pt-28 absolute bg-gray-100 w-full' >
             <div className='col-span-1'>
        
             </div>
@@ -307,6 +313,14 @@ const userProfile = () =>{
             </div>
      
 
+        
+        </div>
+        ):(
+            <div className='absolute top-1/2 -translate-y-1/2  left-1/2 -translate-x-1/2 '>
+            <ClipLoader />
+            </div>
+        )}
+        
         </div>
     )
 }

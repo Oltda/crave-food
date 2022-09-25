@@ -9,9 +9,6 @@ module.exports = {
       backgroundImage: {
         'header-picture': "url('/static/images/Foodies.jpg/')",
       },
-      minWidth: {
-        '400': '400px',
-      },
     }
   },
   plugins: [

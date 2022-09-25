@@ -83,13 +83,8 @@ function PostFormTest(){
         setLoading(false); 
         setOpen(false);
     }
-
-
-
-    
-     
    
-
+   
     const addImageToPost = (e) =>{
         const reader = new FileReader();
         if(e.target.files[0]){
@@ -132,8 +127,7 @@ function PostFormTest(){
       const newIngredience = ingredience.splice(index, 1)
  
       setIngredience([...ingredience])
-
-      
+  
     }
 
     const showIngredienceBox = () =>{
@@ -160,7 +154,7 @@ function PostFormTest(){
         }
     }
 
-    const showHideAddPutton = () =>{
+    const showHideAddButton = () =>{
         if(captionTwoRef.current.value != ""){
             setAddButton(true)
         }
@@ -273,7 +267,7 @@ function PostFormTest(){
                                                         type="text"
                                                         ref={captionTwoRef}
                                                         placeholder="Ingredient..."
-                                                        onChange={showHideAddPutton}
+                                                        onChange={showHideAddButton}
                                                     />
                                                     <div className="inline-block w-8 h-8 ml-3">
                                                         <PlusCircleIcon className={addButton ? "w-8 h-8 text-blue-500 hover:text-blue-700 cursor-pointer block" : "hidden"} onClick={addIgredience} / >
@@ -286,7 +280,9 @@ function PostFormTest(){
                                                     {ingredience.length > 0 && (
                                                         ingredience.map((ingredient, index)=>(
                                                         <div className="mr-3 mt-3 inline-block"> 
-                                                                <p className="px-2 bg-gray-400 border border-white rounded-full inline-block" key={index}>{ingredient} <span className="cursor-pointer ml-3" onClick={deleteIngredient} id={index}>x</span></p>                              
+                                                                <p className="px-2 bg-gray-400 border border-white rounded-full inline-block" key={index}>{ingredient} 
+                                                                  <span className="cursor-pointer ml-3" onClick={deleteIngredient} id={index}>x</span>
+                                                                </p>                              
                                                             </div>
                                                         ))
                                                     

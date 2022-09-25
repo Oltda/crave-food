@@ -20,7 +20,7 @@ function Header(){
 
     return(
        
-        <div className="top-0 h-1/7 w-full bg-white shadow-sm border-b fixed flex items-center py-4 px-3 lg:px-16 z-50 place-content-between">
+        <div className="top-0 h-1/7 w-full bg-white shadow-sm border-b fixed flex items-center py-4 px-6 lg:px-16 z-50 place-content-between">
                 <Link href={'/'} >
                     <div className="w-20 lg:w-36 cursor-pointer">
                     
