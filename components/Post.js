@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/outline";
 import {alertState} from "../atoms/alertAtom";
 import {useRecoilState} from "recoil";
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 function Post({id, username, img, caption}){
@@ -27,6 +28,7 @@ function Post({id, username, img, caption}){
   const [dislikes, setDislikes] = useState([])
   const [alreadyDisliked, setAlreadyDisliked] = useState(false);
   const [alert, setAlert] = useRecoilState(alertState)
+  const [loadingPhoto, setLoadingPhoto] = useState(true)
 
     var settings = {
         dots: true,
@@ -35,6 +37,11 @@ function Post({id, username, img, caption}){
         slidesToShow: 1,
         slidesToScroll: 1
       };
+
+
+    const loadingFce = () =>{
+        setLoadingPhoto(false)
+    }
 
 
     useEffect(
@@ -156,7 +163,7 @@ function Post({id, username, img, caption}){
         }
     }
 
-    
+  
 
    
     return(
@@ -167,10 +174,16 @@ function Post({id, username, img, caption}){
               
                     <div className="text-2xl lg:text-3xl text-center font-medium  mb-3 p-2">{caption}</div>
                                
-                    <div className="w-full overflow-hidden">
-                        
+                    <div className="w-full min-h-[300px] overflow-hidden">
+                        {loadingPhoto ? (
+                             <div className='relative flex place-content-center items-center  min-h-[300px] bg-gray-200'>
+                                 <ClipLoader />
+                             </div>
+                        ):(
+                            <></>
+                        )}
                         <Link href={'/userRecipe/' + id}>
-                            <img src={img[0]} className="w-full cursor-pointer"/>
+                            <img onLoad={loadingFce} src={img[0]} className="w-full cursor-pointer"/>
                         </Link>
                     </div>
 

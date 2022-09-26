@@ -13,9 +13,8 @@ import {
     CameraIcon
 } from "@heroicons/react/outline";
 import {ref, getDownloadURL, uploadString } from '@firebase/storage';
-import PreviewPhoto from '../../components/PreviewPhoto';
 import {Dialog, Transition} from "@headlessui/react";
-import Head from 'next/head'
+import {useSession} from "next-auth/react";
 
 
 const UserName = () =>{
@@ -33,10 +32,11 @@ const UserName = () =>{
     const filePickerRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState();
     const [openPreview, setOpenPreview] = useState(false);
- 
+    const {data: session} = useSession();
+    const [userName, setUserName] = useState(null)
+    const [pictureLoading, setPictureLoading] = useState(true)
 
-
-
+    console.log(pictureLoading)
 
     //----------------------------
 
@@ -44,6 +44,8 @@ const UserName = () =>{
    useEffect(() => {
       if(router.isReady){
         const { nameUser } = router.query
+
+       
 
         const fetchData = async () => {
             const docRef = doc(db, "posts", nameUser);
@@ -53,6 +55,7 @@ const UserName = () =>{
             setIngredience(snapshot.data().captionTwo)
             setDescriptionText(snapshot.data().recipeDescription)
             setCaption(snapshot.data().caption)
+            setUserName(snapshot.data().username)
             //setImageArray(snapshot.data().image)
         }
       
@@ -72,7 +75,7 @@ const UserName = () =>{
    }, [postData])
 
 
-   console.log(ingredience)
+   
 
    const handleEdit = () =>{
     if(editing){
@@ -170,7 +173,7 @@ const UserName = () =>{
         const snapshot = await getDoc(documentRef);
         setPostData(snapshot.data())
 
-        console.log(ingredience)
+      
     
       }
 
@@ -194,23 +197,27 @@ const UserName = () =>{
         }
     }
 
+
+    const loadFce = () =>{
+        setPictureLoading(false)
+    }
+
    const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3
+    slidesToScroll: 3,
+   
   };
 
     return(
         <div className=''>
-       <Head>
-        <title>My page title</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+
 
         {postData?.image.length ? (
         <div className="h-full top-24 relative">
+               
 
             <div className="lg:inline-block sm:block h-full lg:w-1/2 sm:w-full mb-16">
                    
@@ -232,7 +239,8 @@ const UserName = () =>{
                                                     <h1 className='  text-6xl text-center mb-8 '>{caption}</h1>
                                                 )}
                                             </div>
-
+                                            
+                                            {userName == session?.user?.username &&(
                                             <div className=' flex place-content-center  w-full'>
                                                 <div className="  mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 hover:bg-gray-300
                                                     cursor-pointer">
@@ -250,18 +258,31 @@ const UserName = () =>{
                                                     />
                                                 </div>
                                             </div>
-
+                                            )}
                                         </div>
-                                    {/* <h1 className='lg:hidden text-3xl text-center mb-10 '>{postData?.caption}</h1> */}
+                           
                                     
                                     
                                 <div className='relative'>
-
-                                    <div className={postData?.image.length > 1 ?' overflow-hidden max-h-[500px]' : 'h-full'}>
-                                            <img src={imageArray[0]} className="w-full relative"/>
+          
+                                    <div className={postData?.image.length > 1 ?' overflow-hidden max-h-[500px] bg-gray-200  min-w-[500px] min-h-[500px]' : 'h-full'}>
+                                            {pictureLoading ? (
+                                                <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 '>
+                                                    <ClipLoader />
+                                                </div>
+                                            ):(
+                                                <></>
+                                            )}                                    
+                                            <img onLoad={loadFce} src={imageArray[0]} className="w-full relative"/>
                                     </div>
                                     <div className='p-5 absolute flex place-content-end w-full top-full -translate-y-full' >
-                                        <TrashIcon onClick={deletePhoto} id={0} className='w-20 h-20 text-blue-500 cursor-pointer hover:scale-125 transition transform duration-200 ease-out' />
+                                        {editing ? (
+                                            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gray-500
+                                                cursor-pointer hover:bg-gray-600">
+                                                <TrashIcon onClick={deletePhoto} id={0} className='w-14 h-14 text-white  ' />
+                                            </div>
+                                        ):(<></>)}
+                                   
                                     </div>
                                 </div>
                                     
@@ -273,9 +294,14 @@ const UserName = () =>{
                                            { imageArray.slice(1).map((pic, index)=>( 
                                                 
                                                 <div className='h-40 w-64 bg-gray-100 border-2 border-white flex items-center relative'>
-                                                    <img src={pic} className="h-40 w-64 object-cover absolute"/>
-                                                    <div className='absolute w-full top-full -translate-y-full flex place-content-end' >
-                                                        <TrashIcon onClick={deletePhoto} id={index +1} className='w-10 h-10 text-blue-500 cursor-pointer hover:scale-125 transition transform duration-200 ease-out' />
+                                                    <img src={pic} className="h-full w-full object-cover absolute"/>
+                                                    <div className='p-2 absolute w-full top-full -translate-y-full flex place-content-end' >
+                                                        {editing ? (
+                                                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-500
+                                                                cursor-pointer hover:bg-gray-600">
+                                                                <TrashIcon onClick={deletePhoto} id={index +1} className='w-8 h-8 text-white cursor-pointer' />
+                                                            </div>
+                                                         ):(<></>)}
                                                     </div>
                                                 </div>                                                              
                                              ))}
@@ -285,8 +311,13 @@ const UserName = () =>{
                                             
                                             <div className='w-1/2 h-52 bg-gray-100 border-2 border-white inline-block relative'>
                                                 <img src={pic} className="h-52 w-full object-cover absolute"/>
-                                                <div className='absolute w-full top-full -translate-y-full flex place-content-end' >
-                                                        <TrashIcon onClick={deletePhoto} id={index +1} className='w-10 h-10 text-blue-500 cursor-pointer hover:scale-125 transition transform duration-200 ease-out' />
+                                                <div className='p-2 absolute w-full top-full -translate-y-full flex place-content-end' >
+                                                    {editing ? (
+                                                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-500
+                                                            cursor-pointer hover:bg-gray-600">
+                                                        <TrashIcon onClick={deletePhoto} id={index +1} className='w-8 h-8 text-white' />
+                                                    </div>
+                                                    ):(<></>)}
                                                 </div>
                                             </div>                                                              
                                         ))
@@ -317,7 +348,8 @@ const UserName = () =>{
                         )}
                     </div>
                     
-                    <div className=''>
+                    {userName == session?.user?.username &&(
+                    <div>
                         <div className="  mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 hover:bg-gray-300
                             cursor-pointer mb-2">
                             <PencilIcon onClick={handleEdit} className=' h-6 w-6' />
@@ -334,6 +366,7 @@ const UserName = () =>{
                             />
                         </div>
                     </div>
+                    )}
 
                     <div>
                         <div>
@@ -349,7 +382,7 @@ const UserName = () =>{
 
                 </div>
 
-                <div className='mb-10 w-full relative border border-gray-500 py-7 px-12 rounded-md'>
+                <div className='mb-10 w-full relative  py-7 px-12 rounded-md border border-gray-500 '>
                     <div className='absolute p-1 left-7 -top-7 bg-white'>
                         <div className='w-full h-full border-dotted border-black relative'>
                             <h2 className='text-3xl'>INGREDIENCE</h2>
@@ -430,12 +463,28 @@ const UserName = () =>{
         )}
 
         {openPreview ? (
+            
             <Transition.Root show={openPreview} >
-                <Dialog as='div' onClose={setOpenPreview} className="shadow-xl p-2 bg-white absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-1/3 rounded-md ">
-                    <img className="w-full mb-2" src={selectedFile} />
-                    <div onClick={addPhoto} className='cursor-pointer text-center p-3 bg-red-400 hover:bg-red-600 w-full text-white' >Add photo</div>
+                <Dialog as='div' onClose={setOpenPreview} 
+                        className="w-full h-full lg:max-h-[450px] lg:max-w-[400px] md:max-h-[450px] md:max-w-[400px] shadow-xl p-2                   
+                                fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2  rounded-md bg-gray-100">
+
+                    <div className='w-full h-4/5 lg:h-full md:h-full sm:h-full  relative top-1/4 lg:top-0 md:top-0 sm:top-20'>
+                        <div className=' w-full h-3/5 lg:h-4/5  relative mb-10 lg:mb-5 '>
+                            <img className="w-full h-full object-cover absolute" src={selectedFile} />
+                        </div>
+                        <div onClick={addPhoto} className='cursor-pointer text-center p-3 bg-red-400 hover:bg-red-600 w-full text-white' >Add photo</div>
+                    </div>   
+
+                    {/* <div className=' w-full h-2/5 lg:h-4/5 relative mb-5 '>
+                         <img className="w-full h-full object-cover absolute" src={selectedFile} />
+                    </div>
+                    <div onClick={addPhoto} className='cursor-pointer text-center p-3 bg-red-400 hover:bg-red-600 w-full text-white' >Add photo</div> */}
+
+
                 </Dialog>
             </Transition.Root>
+          
         ):(
             <></>
         )}
