@@ -15,6 +15,8 @@ import {
 import {ref, getDownloadURL, uploadString } from '@firebase/storage';
 import {Dialog, Transition} from "@headlessui/react";
 import {useSession} from "next-auth/react";
+import PhotoLoader from '../../components/PhotoLoader';
+import Head from 'next/head'
 
 
 const UserName = () =>{
@@ -207,8 +209,17 @@ const UserName = () =>{
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
-   
+    slidesToScroll: 3, 
+    
+  };
+
+
+  const settings2 = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1, 
   };
 
     return(
@@ -216,10 +227,13 @@ const UserName = () =>{
 
 
         {postData?.image.length ? (
-        <div className="h-full top-24 relative">
+        <div className=" w-full top-24 absolute lg:px-6  ">
+            <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </Head>
                
 
-            <div className="lg:inline-block sm:block h-full lg:w-1/2 sm:w-full mb-16">
+            <div className="lg:inline-block sm:block h-full lg:w-1/2 sm:w-full mb-16 ">
                    
                         {postData?.image.length ? (
                             <div className=''>
@@ -262,34 +276,110 @@ const UserName = () =>{
                                         </div>
                            
                                     
-                                    
-                                <div className='relative'>
-          
-                                    <div className={postData?.image.length > 1 ?' overflow-hidden max-h-[500px] bg-gray-200  min-w-[500px] min-h-[500px]' : 'h-full'}>
-                                            {pictureLoading ? (
-                                                <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 '>
-                                                    <ClipLoader />
+
+                                        {postData?.image.length == 2 ? (
+                                            <Slider {...settings2}>
+                                                <div className='relative'>
+                        
+                                                    {/* <div className='overflow-hidden max-h-[500px] bg-gray-200  min-w-[500px] min-h-[300px] lg:min-h-[500px]'> */}
+                                                    <div className='bg-gray-200 overflow-hidden w-full h-[300px] md:h-[500px] lg:h-[500px]'>
+                                                            <PhotoLoader loading={pictureLoading} />
+                                                    
+                                                            <img onLoad={loadFce} src={imageArray[0]} className="w-full h-full object-cover absolute"/>
+                                                    </div>
+
+
+                                                    <div className='p-5 absolute flex place-content-end w-full top-full -translate-y-full' >
+                                                        {editing ? (
+                                                            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gray-500
+                                                                cursor-pointer hover:bg-gray-600">
+                                                                <TrashIcon onClick={deletePhoto} id={0} className='w-14 h-14 text-white  ' />
+                                                            </div>
+                                                        ):(<></>)}
+                                                
+                                                    </div>
+
+
                                                 </div>
-                                            ):(
-                                                <></>
-                                            )}                                    
-                                            <img onLoad={loadFce} src={imageArray[0]} className="w-full relative"/>
-                                    </div>
-                                    <div className='p-5 absolute flex place-content-end w-full top-full -translate-y-full' >
-                                        {editing ? (
-                                            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gray-500
-                                                cursor-pointer hover:bg-gray-600">
-                                                <TrashIcon onClick={deletePhoto} id={0} className='w-14 h-14 text-white  ' />
-                                            </div>
+                                                <div className='relative'>
+                        
+                                                        <div className='bg-gray-200 overflow-hidden w-full h-[300px] md:h-[500px] lg:h-[500px]'>                                                  
+                                                        
+                                                                <img src={imageArray[1]} className="w-full h-full object-cover absolute"/>
+                                                        </div>
+
+
+                                                        <div className='p-5 absolute flex place-content-end w-full top-full -translate-y-full' >
+                                                            {editing ? (
+                                                                <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gray-500
+                                                                    cursor-pointer hover:bg-gray-600">
+                                                                    <TrashIcon onClick={deletePhoto} id={1} className='w-14 h-14 text-white  ' />
+                                                                </div>
+                                                            ):(<></>)}
+                                                    
+                                                        </div>
+
+
+                                                </div>
+                                                
+                                        </Slider>
                                         ):(<></>)}
-                                   
-                                    </div>
-                                </div>
-                                    
+
+                                         {postData?.image.length == 1 ? (
+                                            <div className='relative'>
+
+                                                <div className=' bg-gray-200 overflow-hidden w-full h-[300px] md:h-[500px] lg:h-[500px]' >
+
+                                                        <PhotoLoader loading={pictureLoading} />
+                                                
+                                                        <img onLoad={loadFce} src={imageArray[0]} className="w-full h-full object-cover absolute"/>
+                                                </div>
+
+
+                                                <div className='p-5 absolute flex place-content-end w-full top-full -translate-y-full' >
+                                                    {editing ? (
+                                                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gray-500
+                                                            cursor-pointer hover:bg-gray-600">
+                                                            <TrashIcon onClick={deletePhoto} id={0} className='w-14 h-14 text-white  ' />
+                                                        </div>
+                                                    ):(<></>)}
+                                            
+                                                </div>
+
+
+                                            </div>
+                                         ):(<></>)}
+
+                                        {postData?.image.length > 2 ? (
+                                                <div className='relative'>
+
+                                                <div className='bg-gray-200 overflow-hidden w-full h-[300px] md:h-[500px] lg:h-[500px]'>
+
+                                                        <PhotoLoader loading={pictureLoading} />
+                                                
+                                                        <img onLoad={loadFce} src={imageArray[0]} className="w-full h-full object-cover absolute"/>
+                                                </div>
+
+
+                                                <div className='p-5 absolute flex place-content-end w-full top-full -translate-y-full' >
+                                                    {editing ? (
+                                                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gray-500
+                                                            cursor-pointer hover:bg-gray-600">
+                                                            <TrashIcon onClick={deletePhoto} id={0} className='w-14 h-14 text-white  ' />
+                                                        </div>
+                                                    ):(<></>)}
+                                            
+                                                </div>
+
+
+                                            </div>
+                                         ):(<></>)}
+
+
                       
                                 
-                                    <div>
-                                    {postData?.image.length > 3 ? (
+                                <div>
+                                    {postData?.image.length > 3 && (
                                             <Slider {...settings}>
                                            { imageArray.slice(1).map((pic, index)=>( 
                                                 
@@ -306,7 +396,9 @@ const UserName = () =>{
                                                 </div>                                                              
                                              ))}
                                              </Slider>
-                                    ):(
+                                    )} 
+                                    
+                                    {postData?.image.length == 3 && (
                                         imageArray.slice(1).map((pic, index)=>( 
                                             
                                             <div className='w-1/2 h-52 bg-gray-100 border-2 border-white inline-block relative'>
@@ -322,7 +414,10 @@ const UserName = () =>{
                                             </div>                                                              
                                         ))
                                     )}
-                                    </div>
+
+       
+
+                                </div>
                             </div>
                         ):(
                             <></>
@@ -330,7 +425,7 @@ const UserName = () =>{
 
             </div>
 
-            <div className="lg:inline-block sm:block h-full lg:w-1/2 sm:w-full px-10 lg:px-20 align-top">
+            <div className="lg:inline-block sm:block h-full lg:w-1/2 sm:w-full px-10 lg:px-10 align-top">
                 
                 <div className='hidden lg:flex place-content-between w-full  mb-10 ' >
                     <div className='w-full  mr-3 '>
