@@ -26,9 +26,7 @@ function Feed(){
             <div className="col-span-5 lg:col-span-3 pt-10">
                     
 
-            {open?(
-            
-         
+            {open?(   
                 <PostForm />
 
             ):(
@@ -39,21 +37,10 @@ function Feed(){
     
                 <Alert />
             ):(<></>)}
-
             
-            <Posts />
-
-                    
+                <Posts />              
             </div>
-            <div className="bg-gray-100 hidden lg:block lg:col-span-1">
-                            
-            </div>   
-
-
-
-            
-
-                
+            <div className="bg-gray-100 hidden lg:block lg:col-span-1"></div>             
         </div>
     )
 }

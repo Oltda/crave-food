@@ -33,7 +33,7 @@ const UserPost = ({key, img, caption, description, id}) =>{
             hover:scale-110 transition transform duration-200 ease-out " 
             key={key}>
             <div className="w-full h-40  overflow-hidden ">
-                <img className="w-full h-40 object-cover" src={img[0]} />
+                <img className="w-full h-full object-cover" src={img[0]} />
             </div>
             <div className=" px-2 ">
                 <p className="font-bold mb-2">{caption}</p>

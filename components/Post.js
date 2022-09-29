@@ -75,10 +75,6 @@ function Post({id, username, img, caption}){
         );
 
 
-   
-
-
-
 
     useEffect(
         ()=> 
@@ -172,7 +168,7 @@ function Post({id, username, img, caption}){
     {img ? (
           <div className=" bg-white lg:rounded-lg border border-gray-300">
               
-                    <div className="text-2xl lg:text-3xl text-center font-medium  mb-3 p-2">{caption}</div>
+                    <div className="text-xl lg:text-3xl text-center  mb-3 p-2">{caption}</div>
                                
                     <div className="w-full min-h-[300px] overflow-hidden">
                         {loadingPhoto ? (

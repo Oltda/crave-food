@@ -12,7 +12,7 @@ import {useRecoilState} from "recoil";
 import {alertState} from "../../atoms/alertAtom";
 import Alert from "../../components/Alert";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import Head from 'next/head'
 
 
 const userProfile = () =>{
@@ -229,11 +229,13 @@ const userProfile = () =>{
 
     return(
         <div>
-
+            <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </Head>
         {posts.length ? (
 
         
-        <div className='grid grid-cols-6  pt-28 absolute bg-gray-100 w-full' >
+        <div className='grid grid-cols-6  pt-28 absolute bg-gray-100 h-full w-full' >
             <div className='col-span-1'>
        
             </div>

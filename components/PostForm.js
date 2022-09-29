@@ -168,12 +168,12 @@ function PostFormTest(){
 
     
 <Transition.Root show={open} >
-    <Dialog as='div' onClose={setOpen} className={`absolute min-h-[550px] left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 shadow bg-white w-full  
-                lg:w-2/5 sm:w-5/6 h-full lg:h-4/5 sm:h-4/5 rounded-lg  z-50 py-3 px-3 lg:px-9`}>
+    <Dialog as='div' onClose={setOpen} className={`absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 shadow bg-white w-full  
+                lg:w-2/5 sm:w-5/6 h-full lg:h-[650px] rounded-lg  z-50 py-3 px-3 lg:px-9`}>
 
                             <div>
 
-                                    <div className="w-full relative mb-10 lg:mb-5">
+                                    <div className="w-full relative mb-10 sm:mb-5 md:mb-5 lg:mb-5">
                                         <div className="w-full flex place-content-between items-center">
                                             <div className="w-10 h-10">
                                                 {finishPhotoPick ?(
@@ -240,7 +240,7 @@ function PostFormTest(){
 
                             </div>
                             ):(
-                                <div className="h-3/5 lg:h-4/5 relative ">
+                                <div className="h-4/5 lg:h-4/5 relative">
                                     <div className="" >
                                     <input
                                                 className=" focus:border-black focus:outline-none w-full   text-xl"
@@ -311,11 +311,11 @@ function PostFormTest(){
                                     </div>
                                        
                                         {/* submit button ----------------------------------- */}
-                                        <div className="absolute w-full top-full -translate-y-full " >
+                                        <div className="absolute w-full bottom-5 " >
                                             <button
                                                 type="button"
                                                 disabled={!selectedFile}
-                                                className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4
+                                                className="flex justify-center w-full rounded-md border border-transparent shadow-sm px-4
                                                 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
                                                 focus:ring-red-500 sm:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed hover:disabled:bg-gray-300"
                                                 onClick={uploadPost}
@@ -327,7 +327,7 @@ function PostFormTest(){
                                 </div>  
                             )}
          
-
+              
        
 
                             <div>
@@ -342,9 +342,11 @@ function PostFormTest(){
                                                 />
                                             </div>
 
-                                            <div className="mt-2">
-                                            </div>
+                                <div className="mt-2">
                                 </div>
+                            </div>
+
+                              
                             </div>
                                 
    
