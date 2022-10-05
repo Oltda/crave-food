@@ -20,6 +20,9 @@ import IngredientBox from '../../components/IngredientBox';
 import DescriptionBox from '../../components/DescriptionBox';
 import { photoPreviewState } from '../../atoms/photoPreviewAtom';
 import PhotoPreview from '../../components/PhotoPreview';
+import { modalState } from '../../atoms/modalAtom';
+import PostForm from '../../components/PostForm';
+
 
 const UserName = () =>{
     const router = useRouter()
@@ -35,6 +38,7 @@ const UserName = () =>{
     const [imageArray, setImageArray] = useRecoilState(imageArrayState)
     const [postData, setPostData] = useRecoilState(postDataState);
     const [openPreview, setOpenPreview] = useRecoilState(photoPreviewState);
+    const [open, setOpen] = useRecoilState(modalState)
  
 
 
@@ -115,11 +119,11 @@ const UserName = () =>{
             </Head>
                
             <div className="lg:inline-block sm:block h-full lg:w-1/2 sm:w-full mb-16">
-                <div className='lg:hidden  mb-10'>
+                <div className='lg:hidden  mb-10 px-5'>
                     <div className='w-full'>
                                     {editing  ? (
                                         <input 
-                                            className=' w-full  text-6xl   text-center
+                                            className=' w-full  text-4xl   text-center
                                             mb-14 border-b-2 border-gray-400 focus:border-black 
                                             focus:outline-none text-gray-600' 
                                             type="text" 
@@ -127,11 +131,11 @@ const UserName = () =>{
                                             onChange={handleChangeCaption}
                                             />
                                     ):(
-                                        <h1 className='  text-6xl text-center mb-8 '>{caption}</h1>
+                                        <h1 className='  text-4xl text-center mb-8 '>{caption}</h1>
                                     )}
                     </div>
                     {userName == session?.user?.username &&(
-                            <div className=' flex place-content-center  w-full'>
+                            <div className=' flex place-content-center  w-[200px] m-auto'>
                                 <div className="  mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 hover:bg-gray-300
                                     cursor-pointer">
                                     <PencilIcon onClick={handleEdit} className=' h-6 w-6' />
@@ -230,6 +234,12 @@ const UserName = () =>{
 
             {showAlert ? (
                 <PhotoAlert />
+            ):(
+                <></>
+            )}
+
+            {open? (
+                 <PostForm />
             ):(
                 <></>
             )}

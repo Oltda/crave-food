@@ -22,8 +22,8 @@ const DescriptionBox = ({documentRef}) =>{
     }
 
     return(
-        <div className="mb-3" >
-            <h2 className='text-3xl'>This is how you make it:</h2>
+        <div className="mb-3 px-7" >
+            <h2 className='text-2xl lg:text-3xl mb-3'>This is how you make it</h2>
                 {editing ? (
                     <div>
                         <textarea 

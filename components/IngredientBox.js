@@ -6,7 +6,8 @@ import {
     PencilIcon,
     PlusCircleIcon,
     TrashIcon,
-    CameraIcon
+    CameraIcon,
+    XIcon
 } from "@heroicons/react/outline";
 import {doc, getDoc, setDoc, updateDoc} from "@firebase/firestore"; 
 
@@ -47,10 +48,10 @@ const IngredientBox =({documentRef})=>{
 
 
     return(
-        <div className='mb-10 w-full relative  py-7 px-12 rounded-md border border-gray-500 '>
+        <div className='mb-10 w-full relative  py-7 px-12 rounded-md border-2 border-gray-400 min-w-[200px] shadow'>
         <div className='absolute p-1 left-7 -top-7 bg-white'>
             <div className='w-full h-full border-dotted border-black relative'>
-                <h2 className='text-3xl'>INGREDIENCE</h2>
+                <h2 className='text-2xl lg:text-3xl'>INGREDIENCE</h2>
             </div>                        
         </div>
         {editing ? (
@@ -69,18 +70,17 @@ const IngredientBox =({documentRef})=>{
             </div>
 
             {postData?.captionTwo.map((ingredient, index)=>(
-                <div className="mr-3 mt-3 inline-block"> 
-                        <p className="px-2 bg-gray-400 border border-white rounded-full " key={index}>{ingredient} 
-                            <span className="cursor-pointer ml-3" onClick={deleteIngredient}  id={index}>x</span>
-                        </p>                              
-                </div>
+                <div key={index} className="mr-3 mt-3 inline-flex items-center relative rounded-full  bg-gray-400 border border-white px-2"> 
+                    <p>{ingredient} </p>                                                 
+                <XIcon  onClick={deleteIngredient} id={index} className="h-3 w-3 cursor-pointer ml-3" /> 
+        </div>
                 
             ))}
          </div> 
         ):(
             <div>
             {postData?.captionTwo.map((e, i)=>(
-                <div key={i} className='lg:w-1/2 lg:inline-block sm:w-full sm:block'>
+                <div key={i} className='lg:w-1/2 lg:inline-block sm:w-full sm:block text-xl'>
                    <p>&#x2713; {e}</p>
                 </div>
                 

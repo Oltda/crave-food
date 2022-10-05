@@ -37,8 +37,11 @@ function Posts(){
     return(
         <div>
             {!ready? (
-              
-                <ClipLoader cssOverride={override} />
+              <div className=' absolute  top-2/3 left-1/2 -translate-x-1/2'>
+                {/* <ClipLoader cssOverride={override} /> */}
+                    
+                    <img className="w-20 animate-bounce"  src="/static/images/TranspLogo.png"/>
+              </div>
              
           
             ):(

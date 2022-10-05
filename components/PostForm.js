@@ -18,7 +18,7 @@ import {
 } from "@heroicons/react/outline";
 import {Dialog, Transition} from "@headlessui/react";
 
-const chosenPhotos = [];
+
 
 function PostFormTest(){
     
@@ -34,9 +34,10 @@ function PostFormTest(){
     const [finishPhotoPick, setFinishPhotoPick ] = useState(false);
     const [showIngredience, setShowIngredience] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
-    const [addButton, setAddButton] = useState(false);
-    const [modalSize, setModalSize] = useState("h-3/5")
-  
+    const [addButton, setAddButton] = useState(false);   
+    const [missingCaption, setMissingCaption] = useState(false)
+    const [missingIngredient, setMissingIngredient] = useState(false)
+    const [missingDescription, setMissingDescription] = useState(false)
 
 
 
@@ -44,6 +45,14 @@ function PostFormTest(){
 
     const uploadPost = async () =>{
         if(loading) return;
+
+        setMissingCaption(false)
+        setMissingIngredient(false)
+        setMissingDescription(false)
+
+        if(captionRef.current.value.trim() != "" && ingredience.length > 0 && recipeDescr.current.value.trim() != ""){
+
+       
 
         setLoading(true);
 
@@ -82,8 +91,24 @@ function PostFormTest(){
 
         setLoading(false); 
         setOpen(false);
+
+        }
+        else{
+            
+            if(captionRef.current.value.trim() === ""){
+                setMissingCaption(true)
+            }
+            if(ingredience.length == 0){
+                setMissingIngredient(true)
+            }
+            if(recipeDescr.current.value.trim() === ""){
+                setMissingDescription(true)
+            }
+
+        
+        }
     }
-   
+  
    
     const addImageToPost = (e) =>{
         const reader = new FileReader();
@@ -91,11 +116,7 @@ function PostFormTest(){
             reader.readAsDataURL(e.target.files[0]);
         }
         
-        reader.onload = (readerEvent)=>{
-            chosenPhotos.push(readerEvent.target.result);
-
-            
-            
+        reader.onload = (readerEvent)=>{   
             setSelectedFile(oldArray => [...oldArray, readerEvent.target.result]);
         };       
     };
@@ -113,7 +134,6 @@ function PostFormTest(){
 
             setShowIngredience(false)
             setShowDescription(false)
-            setModalSize("lg:h-3/5")
         }
         else{
             setFinishPhotoPick(true)
@@ -133,12 +153,12 @@ function PostFormTest(){
     const showIngredienceBox = () =>{
         if(showIngredience){
             setShowIngredience(false)
-            //setModalSize("lg:h-3/5")
+
         }
         else{
             setShowIngredience(true)
             setShowDescription(false)
-            //setModalSize("lg:h-4/5")
+       
         }
         
     }
@@ -146,11 +166,11 @@ function PostFormTest(){
     const showDescriptionBox = () =>{
         if(showDescription){
             setShowDescription(false)
-            //setModalSize("lg:h-3/5")
+    
         }else{
             setShowDescription(true) 
             setShowIngredience(false)
-           // setModalSize("lg:h-4/5")
+          
         }
     }
 
@@ -167,10 +187,10 @@ function PostFormTest(){
     return(
 
     
-<Transition.Root show={open} >
-    <Dialog as='div' onClose={setOpen} className={`absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 shadow bg-white w-full  
-                lg:w-2/5 sm:w-5/6 h-full lg:h-[650px] rounded-lg  z-50 py-3 px-3 lg:px-9`}>
-
+        <Transition.Root show={open} >
+            <Dialog as='div' onClose={setOpen} className={`absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 shadow bg-white w-full  
+                        lg:w-2/5 sm:w-5/6 h-full lg:h-[650px] rounded-lg  z-50 py-3 px-3 lg:px-9 border border-gray-200`}>
+                                    
                             <div>
 
                                     <div className="w-full relative mb-10 sm:mb-5 md:mb-5 lg:mb-5">
@@ -209,12 +229,14 @@ function PostFormTest(){
 
                                     <div className="relative w-full min-h-[100px] ">
                                         <div className="w-full overflow-x-scroll scrollbar-thin scrollbar-thumb-black inline-flex justify-center">
-                                            {selectedFile.map( e =>
-                                                <img 
-                                                src={e} 
-                                                className="h-36 object-contain cursor-pointer mr-2"
-                                                alt=""
-                                                />  
+                                            {selectedFile.map((e, i) =>(
+                                                        <img 
+                                                        src={e} 
+                                                        className="h-36 object-contain cursor-pointer mr-2"
+                                                        alt=""
+                                                        key={i}
+                                                        />  
+                                            )
                                             )}
                                         </div>
                                     </div>
@@ -243,7 +265,7 @@ function PostFormTest(){
                                 <div className="h-4/5 lg:h-4/5 relative">
                                     <div className="" >
                                     <input
-                                                className=" focus:border-black focus:outline-none w-full   text-xl"
+                                                className={!missingCaption ?  "focus:border-black focus:outline-none w-full text-xl" : "placeholder-red-600 focus:border-black focus:outline-none w-full text-xl"}
                                                 type="text"
                                                 ref={captionRef}
                                                 placeholder="Recipe name..."
@@ -254,7 +276,7 @@ function PostFormTest(){
                                     <div className="mt-3 border-t-2 border-gray-200 pt-1" >
 
                                                 <div className="text-lg leading-6 font-medium text-gray-900  mb-5">
-                                                        <p className="inline-block mr-3 w-28">Ingrediences</p>
+                                                        <p className={!missingIngredient ? "inline-block mr-3 w-28 text-black" : "inline-block mr-3 w-28 text-red-600"}>Ingrediences</p>
                                                       
                                                         <ChevronDownIcon 
                                                             className={showIngredience ? "inline-block w-6 h-6 rotate-180 cursor-pointer" : "inline-block w-6 h-6 cursor-pointer" } 
@@ -279,10 +301,9 @@ function PostFormTest(){
                                                 <div className="">
                                                     {ingredience.length > 0 && (
                                                         ingredience.map((ingredient, index)=>(
-                                                        <div className="mr-3 mt-3 inline-block"> 
-                                                                <p className="px-2 bg-gray-400 border border-white rounded-full inline-block" key={index}>{ingredient} 
-                                                                  <span className="cursor-pointer ml-3" onClick={deleteIngredient} id={index}>x</span>
-                                                                </p>                              
+                                                            <div key={index} className="mr-3 mt-3 inline-flex items-center relative rounded-full  bg-gray-400 border border-white px-2"> 
+                                                                    <p>{ingredient} </p>                                                 
+                                                                    <XIcon  onClick={deleteIngredient} className="h-3 w-3 cursor-pointer ml-3" /> 
                                                             </div>
                                                         ))
                                                     
@@ -297,7 +318,7 @@ function PostFormTest(){
                                     
                                     <div className="mt-2  border-t-2 border-b-2 border-gray-200 pt-1" >
                                                 <div className="text-lg leading-6 font-medium text-gray-900 mb-5">
-                                                        <p className="inline-block mr-3 w-28">Description</p> 
+                                                        <p className={!missingDescription ? "inline-block mr-3 w-28 text-black" : "inline-block mr-3 w-28 text-red-600"}>Description</p> 
                                                         <ChevronDownIcon className={showDescription ? "inline-block w-6 h-6 rotate-180 cursor-pointer" : "inline-block w-6 h-6 cursor-pointer" } onClick={showDescriptionBox}/>
                                                     </div>
                                                     <div className={showDescription ? "max-h-[200px]" : "h-0 w-0 overflow-hidden"}>

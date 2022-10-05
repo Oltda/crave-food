@@ -3,10 +3,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import ClipLoader from "react-spinners/ClipLoader";
 import {
-    PencilIcon,
-    PlusCircleIcon,
     TrashIcon,
-    CameraIcon
 } from "@heroicons/react/outline";
 import PhotoLoader from "./PhotoLoader";
 import { useState } from "react";
