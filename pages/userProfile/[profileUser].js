@@ -256,6 +256,14 @@ const userProfile = () =>{
         }
      }
 
+     const openModal = () =>{
+        if(session?.user.username){
+            setOpen(true)
+        }
+        else{
+            setAlert(true)
+        }
+     }
 
    
    
@@ -345,7 +353,7 @@ const userProfile = () =>{
                                 />
                             </div>
                         ))}
-                        <Alert />
+                        {/* <Alert /> */}
                     </div>
 
                     <div className='col-span-1'>
@@ -363,10 +371,10 @@ const userProfile = () =>{
                              <img className="m-auto w-40 my-14 "  src="/static/images/cutlery.png"/>
 
                              <button
-                                onClick={()=>setOpen(true)} 
+                                onClick={openModal} 
                                 className='flex justify-center w-full rounded-md border border-transparent shadow-sm px-4
                                 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                focus:ring-red-500 sm:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed hover:disabled:bg-gray-300"'
+                                focus:ring-blue-500 sm:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed hover:disabled:bg-gray-300"'
                                 >
                                 Post your first recipe!
                             </button>
@@ -381,7 +389,7 @@ const userProfile = () =>{
             )}
 
             <PostForm />
-
+            <Alert />
         </div>
     )
 }
